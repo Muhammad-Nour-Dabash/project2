@@ -1,2 +1,7 @@
-Frontend
+# Crete react app with tailwind and shadcn ui directly
 npx create-tsrouter-app@latest my-app --template file-router --tailwind --add-ons shadcn
+
+# Create express app with all dependencies installed
+npm init -y
+npm install express mongoose dotenv cors express-session bcryptjs
+npm install @types/express @types/mongoose @types/cors @types/express-session --save-dev
