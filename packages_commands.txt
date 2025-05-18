@@ -6,3 +6,5 @@ npm install lucide-react
 npm init -y
 npm install express mongoose dotenv cors express-session bcryptjs
 npm install @types/express @types/mongoose @types/cors @types/express-session --save-dev
+npm install --save-dev typescript @types/node
+npx tsc --init
