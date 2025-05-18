@@ -7,7 +7,7 @@ import illustration from "@/assets/login.svg"; // change this if you have a diff
 import { Lock, Mail } from "lucide-react";
 import { InputWithIcon } from "@/components/ui/input-with-icon";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_auth/login")({
   component: LoginPage,
 });
 

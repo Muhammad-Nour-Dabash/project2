@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { InputWithIcon } from "@/components/ui/input-with-icon";
 import { Lock, Mail, User } from "lucide-react";
 
-export const Route = createFileRoute("/register")({
+export const Route = createFileRoute("/_auth/register")({
   component: RegisterPage,
 });
 

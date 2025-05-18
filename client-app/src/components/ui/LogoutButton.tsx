@@ -18,6 +18,10 @@ export default function LogoutButton() {
 
   return (
     <button
+      style={{
+        width: "100%",
+        height: "32px",
+      }}
       onClick={handleLogout}
       className="flex items-center gap-2 text-white mt-6 hover:opacity-80"
     >

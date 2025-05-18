@@ -11,29 +11,27 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as VitalTaskImport } from './routes/vital-task'
-import { Route as RegisterImport } from './routes/register'
-import { Route as LoginImport } from './routes/login'
+import { Route as DashboardImport } from './routes/_dashboard'
+import { Route as AuthImport } from './routes/_auth'
 import { Route as R404Import } from './routes/404'
-import { Route as IndexImport } from './routes/index'
+import { Route as DashboardIndexImport } from './routes/_dashboard/index'
+import { Route as DashboardVitalTaskImport } from './routes/_dashboard/vital-task'
+import { Route as DashboardTaskCategoriesImport } from './routes/_dashboard/task-categories'
+import { Route as DashboardSettingsImport } from './routes/_dashboard/settings'
+import { Route as DashboardMyTaskImport } from './routes/_dashboard/my-task'
+import { Route as DashboardHelpImport } from './routes/_dashboard/help'
+import { Route as AuthRegisterImport } from './routes/_auth/register'
+import { Route as AuthLoginImport } from './routes/_auth/login'
 
 // Create/Update Routes
 
-const VitalTaskRoute = VitalTaskImport.update({
-  id: '/vital-task',
-  path: '/vital-task',
+const DashboardRoute = DashboardImport.update({
+  id: '/_dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
-const RegisterRoute = RegisterImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -43,23 +41,58 @@ const R404Route = R404Import.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
+const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardVitalTaskRoute = DashboardVitalTaskImport.update({
+  id: '/vital-task',
+  path: '/vital-task',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardTaskCategoriesRoute = DashboardTaskCategoriesImport.update({
+  id: '/task-categories',
+  path: '/task-categories',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardSettingsRoute = DashboardSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardMyTaskRoute = DashboardMyTaskImport.update({
+  id: '/my-task',
+  path: '/my-task',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardHelpRoute = DashboardHelpImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const AuthRegisterRoute = AuthRegisterImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthLoginRoute = AuthLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
     '/404': {
       id: '/404'
       path: '/404'
@@ -67,80 +100,207 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof R404Import
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      id: '/login'
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/_dashboard': {
+      id: '/_dashboard'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth/login': {
+      id: '/_auth/login'
       path: '/login'
       fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof AuthImport
     }
-    '/register': {
-      id: '/register'
+    '/_auth/register': {
+      id: '/_auth/register'
       path: '/register'
       fullPath: '/register'
-      preLoaderRoute: typeof RegisterImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthRegisterImport
+      parentRoute: typeof AuthImport
     }
-    '/vital-task': {
-      id: '/vital-task'
+    '/_dashboard/help': {
+      id: '/_dashboard/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof DashboardHelpImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/my-task': {
+      id: '/_dashboard/my-task'
+      path: '/my-task'
+      fullPath: '/my-task'
+      preLoaderRoute: typeof DashboardMyTaskImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/settings': {
+      id: '/_dashboard/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof DashboardSettingsImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/task-categories': {
+      id: '/_dashboard/task-categories'
+      path: '/task-categories'
+      fullPath: '/task-categories'
+      preLoaderRoute: typeof DashboardTaskCategoriesImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/vital-task': {
+      id: '/_dashboard/vital-task'
       path: '/vital-task'
       fullPath: '/vital-task'
-      preLoaderRoute: typeof VitalTaskImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof DashboardVitalTaskImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/': {
+      id: '/_dashboard/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof DashboardImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthRouteChildren {
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface DashboardRouteChildren {
+  DashboardHelpRoute: typeof DashboardHelpRoute
+  DashboardMyTaskRoute: typeof DashboardMyTaskRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardTaskCategoriesRoute: typeof DashboardTaskCategoriesRoute
+  DashboardVitalTaskRoute: typeof DashboardVitalTaskRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardHelpRoute: DashboardHelpRoute,
+  DashboardMyTaskRoute: DashboardMyTaskRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardTaskCategoriesRoute: DashboardTaskCategoriesRoute,
+  DashboardVitalTaskRoute: DashboardVitalTaskRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/vital-task': typeof VitalTaskRoute
+  '': typeof DashboardRouteWithChildren
+  '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
+  '/help': typeof DashboardHelpRoute
+  '/my-task': typeof DashboardMyTaskRoute
+  '/settings': typeof DashboardSettingsRoute
+  '/task-categories': typeof DashboardTaskCategoriesRoute
+  '/vital-task': typeof DashboardVitalTaskRoute
+  '/': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/vital-task': typeof VitalTaskRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
+  '/help': typeof DashboardHelpRoute
+  '/my-task': typeof DashboardMyTaskRoute
+  '/settings': typeof DashboardSettingsRoute
+  '/task-categories': typeof DashboardTaskCategoriesRoute
+  '/vital-task': typeof DashboardVitalTaskRoute
+  '/': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
   '/404': typeof R404Route
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/vital-task': typeof VitalTaskRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_dashboard': typeof DashboardRouteWithChildren
+  '/_auth/login': typeof AuthLoginRoute
+  '/_auth/register': typeof AuthRegisterRoute
+  '/_dashboard/help': typeof DashboardHelpRoute
+  '/_dashboard/my-task': typeof DashboardMyTaskRoute
+  '/_dashboard/settings': typeof DashboardSettingsRoute
+  '/_dashboard/task-categories': typeof DashboardTaskCategoriesRoute
+  '/_dashboard/vital-task': typeof DashboardVitalTaskRoute
+  '/_dashboard/': typeof DashboardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/404' | '/login' | '/register' | '/vital-task'
+  fullPaths:
+    | '/404'
+    | ''
+    | '/login'
+    | '/register'
+    | '/help'
+    | '/my-task'
+    | '/settings'
+    | '/task-categories'
+    | '/vital-task'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/404' | '/login' | '/register' | '/vital-task'
-  id: '__root__' | '/' | '/404' | '/login' | '/register' | '/vital-task'
+  to:
+    | '/404'
+    | ''
+    | '/login'
+    | '/register'
+    | '/help'
+    | '/my-task'
+    | '/settings'
+    | '/task-categories'
+    | '/vital-task'
+    | '/'
+  id:
+    | '__root__'
+    | '/404'
+    | '/_auth'
+    | '/_dashboard'
+    | '/_auth/login'
+    | '/_auth/register'
+    | '/_dashboard/help'
+    | '/_dashboard/my-task'
+    | '/_dashboard/settings'
+    | '/_dashboard/task-categories'
+    | '/_dashboard/vital-task'
+    | '/_dashboard/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   R404Route: typeof R404Route
-  LoginRoute: typeof LoginRoute
-  RegisterRoute: typeof RegisterRoute
-  VitalTaskRoute: typeof VitalTaskRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  DashboardRoute: typeof DashboardRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   R404Route: R404Route,
-  LoginRoute: LoginRoute,
-  RegisterRoute: RegisterRoute,
-  VitalTaskRoute: VitalTaskRoute,
+  AuthRoute: AuthRouteWithChildren,
+  DashboardRoute: DashboardRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -153,27 +313,63 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
         "/404",
-        "/login",
-        "/register",
-        "/vital-task"
+        "/_auth",
+        "/_dashboard"
       ]
-    },
-    "/": {
-      "filePath": "index.tsx"
     },
     "/404": {
       "filePath": "404.tsx"
     },
-    "/login": {
-      "filePath": "login.tsx"
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/login",
+        "/_auth/register"
+      ]
     },
-    "/register": {
-      "filePath": "register.tsx"
+    "/_dashboard": {
+      "filePath": "_dashboard.tsx",
+      "children": [
+        "/_dashboard/help",
+        "/_dashboard/my-task",
+        "/_dashboard/settings",
+        "/_dashboard/task-categories",
+        "/_dashboard/vital-task",
+        "/_dashboard/"
+      ]
     },
-    "/vital-task": {
-      "filePath": "vital-task.tsx"
+    "/_auth/login": {
+      "filePath": "_auth/login.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/register": {
+      "filePath": "_auth/register.tsx",
+      "parent": "/_auth"
+    },
+    "/_dashboard/help": {
+      "filePath": "_dashboard/help.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/my-task": {
+      "filePath": "_dashboard/my-task.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/settings": {
+      "filePath": "_dashboard/settings.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/task-categories": {
+      "filePath": "_dashboard/task-categories.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/vital-task": {
+      "filePath": "_dashboard/vital-task.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/": {
+      "filePath": "_dashboard/index.tsx",
+      "parent": "/_dashboard"
     }
   }
 }
