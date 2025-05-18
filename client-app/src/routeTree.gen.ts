@@ -11,12 +11,19 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VitalTaskImport } from './routes/vital-task'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as R404Import } from './routes/404'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const VitalTaskRoute = VitalTaskImport.update({
+  id: '/vital-task',
+  path: '/vital-task',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const RegisterRoute = RegisterImport.update({
   id: '/register',
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/vital-task': {
+      id: '/vital-task'
+      path: '/vital-task'
+      fullPath: '/vital-task'
+      preLoaderRoute: typeof VitalTaskImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -84,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/404': typeof R404Route
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/vital-task': typeof VitalTaskRoute
 }
 
 export interface FileRoutesByTo {
@@ -91,6 +106,7 @@ export interface FileRoutesByTo {
   '/404': typeof R404Route
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/vital-task': typeof VitalTaskRoute
 }
 
 export interface FileRoutesById {
@@ -99,14 +115,15 @@ export interface FileRoutesById {
   '/404': typeof R404Route
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/vital-task': typeof VitalTaskRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/404' | '/login' | '/register'
+  fullPaths: '/' | '/404' | '/login' | '/register' | '/vital-task'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/404' | '/login' | '/register'
-  id: '__root__' | '/' | '/404' | '/login' | '/register'
+  to: '/' | '/404' | '/login' | '/register' | '/vital-task'
+  id: '__root__' | '/' | '/404' | '/login' | '/register' | '/vital-task'
   fileRoutesById: FileRoutesById
 }
 
@@ -115,6 +132,7 @@ export interface RootRouteChildren {
   R404Route: typeof R404Route
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  VitalTaskRoute: typeof VitalTaskRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -122,6 +140,7 @@ const rootRouteChildren: RootRouteChildren = {
   R404Route: R404Route,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  VitalTaskRoute: VitalTaskRoute,
 }
 
 export const routeTree = rootRoute
@@ -137,7 +156,8 @@ export const routeTree = rootRoute
         "/",
         "/404",
         "/login",
-        "/register"
+        "/register",
+        "/vital-task"
       ]
     },
     "/": {
@@ -151,6 +171,9 @@ export const routeTree = rootRoute
     },
     "/register": {
       "filePath": "register.tsx"
+    },
+    "/vital-task": {
+      "filePath": "vital-task.tsx"
     }
   }
 }
