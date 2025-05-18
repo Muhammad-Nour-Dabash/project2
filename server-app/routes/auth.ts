@@ -1,27 +1,37 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
+import { requireAuth } from "../middleware/requireAuth";
 
 const routers = Router();
 
-// POST /api/auth/register
-routers.post("/register", async (req:any, res:any) => {
-  const { email, password } = req.body;
+routers.post("/register", async (req: any, res: any) => {
+  const { firstName, lastName, username, email, password } = req.body;
 
-  const exists = await User.findOne({ email });
+  const exists = await User.findOne({ $or: [{ email }, { username }] });
   if (exists) {
     return res.status(400).json({ message: "User already exists" });
   }
 
   const hashed = await bcrypt.hash(password, 10);
-  const user = new User({ email, password: hashed });
+  const user = new User({
+    firstName,
+    lastName,
+    username,
+    email,
+    password: hashed,
+  });
 
-  await user.save();
-  res.status(201).json({ message: "User created" });
+  try {
+    await user.save();
+    res.status(201).json({ message: "User created" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 // POST /api/auth/login
-routers.post("/login", async (req:any, res:any) => {
+routers.post("/login", async (req: any, res: any) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -34,19 +44,31 @@ routers.post("/login", async (req:any, res:any) => {
 });
 
 // POST /api/auth/logout
-routers.post("/logout", (req:any, res) => {
+routers.post("/logout", (req: any, res) => {
   req.session.destroy(() => {
     res.status(200).json({ message: "Logged out" });
   });
 });
 
-// GET /api/auth/me
-routers.get("/me", (req:any, res:any) => {
+routers.get("/me", async (req: any, res: any) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: "Not authenticated" });
   }
 
-  res.json({ userId: req.session.userId });
+  try {
+    const user = await User.findById(req.session.userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+routers.get("/secret", requireAuth, (req, res) => {
+  res.json({ message: "🎉 This is protected data only for logged-in users!" });
 });
 
 export default routers;

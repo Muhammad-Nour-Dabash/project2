@@ -1,5 +1,6 @@
 # Crete react app with tailwind and shadcn ui directly
 npx create-tsrouter-app@latest my-app --template file-router --tailwind --add-ons shadcn
+npm install lucide-react
 
 # Create express app with all dependencies installed
 npm init -y
